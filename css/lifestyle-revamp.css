@@ -1,0 +1,342 @@
+/* ========================================= * 
+   LIFESTYLE REVAMPED (User Requested)
+ * ========================================= */
+
+.lifestyle-revamped {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    background-color: var(--color-bg);
+}
+
+.ls-row {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 80vh;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Reverse the second row for visual variety if desired, 
+   but user asked for images on right for both. 
+   Keeping default flex direction. */
+
+.ls-text-col {
+    flex: 1;
+    min-width: 400px;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Center horizontally */
+    text-align: center;
+    /* Center text */
+    position: relative;
+    overflow: hidden;
+}
+
+.ls-img-col {
+    flex: 1;
+    min-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Background for image area */
+    background: radial-gradient(circle at center, #111, #050505);
+}
+
+/* --- Typography --- */
+.ls-main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    /* Reduced from 3rem */
+    font-weight: 400;
+    /* Lighter weight */
+    line-height: 1.2;
+    margin-bottom: 3rem;
+    z-index: 2;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ls-sub-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    /* SLightly smaller */
+    color: #e0e0e0;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Center flex items */
+    text-transform: uppercase;
+}
+
+/* Decorative dash before subtitle */
+.ls-sub-title::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    /* Thinner line */
+    background-color: var(--color-accent);
+    margin-right: 15px;
+}
+
+.ls-entry {
+    margin-bottom: 3rem;
+    max-width: 450px;
+    z-index: 2;
+    position: relative;
+}
+
+.ls-entry p {
+    color: #aaa;
+    /* Lighter grey for better contrast against dark */
+    font-size: 0.95rem;
+    line-height: 1.8;
+    /* More breathing room */
+    padding-left: 0;
+    /* Removed indent for centered alignment */
+    font-weight: 300;
+}
+
+/* --- Visual Stack --- */
+.ls-visual-stack {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ls-img {
+    position: absolute;
+    width: 60%;
+    /* Responsive width relative to stack */
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border-radius: 20px;
+    /* Rounder, modern corners */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle premium edge */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    /* Deep, soft shadow */
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* Ultra-smooth transition */
+    filter: brightness(0.9) contrast(1.1);
+}
+
+
+
+/* Group 1 Stacking */
+.group-1 .main {
+    top: 10%;
+    left: 10%;
+    z-index: 2;
+}
+
+.group-1 .offset {
+    bottom: 10%;
+    right: 10%;
+    z-index: 1;
+    opacity: 0.5;
+}
+
+/* Group 2 Stacking */
+.group-2 .main {
+    top: 10%;
+    right: 10%;
+    z-index: 2;
+}
+
+.group-2 .offset {
+    bottom: 10%;
+    left: 10%;
+    z-index: 1;
+    opacity: 0.5;
+}
+
+/* Forces the hovered image to the front regardless of initial stacking */
+.ls-visual-stack .ls-img:hover {
+    z-index: 999 !important;
+    transform: scale(1.1);
+    filter: brightness(1) contrast(1);
+    opacity: 1;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
+}
+
+
+/* --- Motion Layer 1: Radar --- */
+.ls-motion-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.radar-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    opacity: 0.15;
+}
+
+.radar-rings {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 0 20px rgba(255, 77, 0, 0.1);
+}
+
+.radar-rings::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+}
+
+.radar-sweep {
+    width: 50%;
+    height: 50%;
+    background: linear-gradient(90deg, transparent, rgba(255, 77, 0, 0.3));
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-origin: bottom left;
+    animation: sweep 6s linear infinite;
+    /* Slower sweep */
+}
+
+@keyframes sweep {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.grid-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.1;
+    /* Reduced for cleaner background */
+}
+
+
+/* --- Motion Layer 2: Waveform --- */
+.waveform-box {
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 100px;
+    opacity: 0.2;
+}
+
+.wave-bar {
+    width: 15px;
+    background-color: var(--color-accent);
+    animation: waveBounce 1.2s ease-in-out infinite;
+    border-radius: 2px;
+}
+
+.b1 {
+    height: 40%;
+    animation-delay: 0.1s;
+}
+
+.b2 {
+    height: 70%;
+    animation-delay: 0.2s;
+}
+
+.b3 {
+    height: 100%;
+    animation-delay: 0.3s;
+}
+
+.b4 {
+    height: 60%;
+    animation-delay: 0.4s;
+}
+
+.b5 {
+    height: 80%;
+    animation-delay: 0.5s;
+}
+
+.b6 {
+    height: 30%;
+    animation-delay: 0.6s;
+}
+
+@keyframes waveBounce {
+
+    0%,
+    100% {
+        transform: scaleY(0.5);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+
+    .ls-text-col,
+    .ls-img-col {
+        min-width: 100%;
+        padding: 3rem 1.5rem;
+    }
+
+    .ls-visual-stack {
+        width: 100%;
+        height: 600px;
+        /* Keep height for vertical stack */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .ls-img {
+        position: relative;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 90%;
+        opacity: 1 !important;
+    }
+}
