@@ -1,13 +1,25 @@
 import ScrollSequence from './ScrollSequence.js';
-import frames from '../assets/frames.json';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // 0. Fetch Frame List (Static Public Assets)
+    let frames = [];
+    try {
+        const response = await fetch('/frames.json');
+        if (!response.ok) throw new Error('Failed to load frames list');
+        const filenames = await response.json();
+        // Construct full paths relative to web root
+        frames = filenames.map(filename => `/frames/${filename}`);
+        console.log(`Loaded ${frames.length} frames.`);
+    } catch (error) {
+        console.error('Error loading frames:', error);
+    }
+
     // Scrollytelling Initialization
     const scrollSequenceContainer = document.querySelector('.scroll-sequence-container');
-    if (scrollSequenceContainer) {
+    if (scrollSequenceContainer && frames.length > 0) {
         new ScrollSequence({
             container: '.scroll-sequence-container',
-            frames: frames // using the imported JSON
+            frames: frames
         });
     }
 

@@ -861,8 +861,34 @@ img {
 /* Engineering Section */
 /* Engineering Section */
 .engineering {
-    padding: 2rem 0 2rem 0;
-    background-color: var(--color-surface);
+    position: relative;
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Background Grid Overlay */
+.engineering::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+    z-index: 1;
+    pointer-events: none;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+.engineering>* {
+    position: relative;
+    z-index: 2;
 }
 
 .section-header {
