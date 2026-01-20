@@ -53,6 +53,30 @@
             </div>
         </div>
     </div>
+    <!-- Inline Loader Init for Instant Feedback -->
+    <script>
+        // Immediately set initial state to avoid "empty" screen
+        (function () {
+            const circle = document.querySelector('.progress-ring-circle');
+            const percent = document.getElementById('loader-percent');
+            if (circle && percent) {
+                // Initialize ring to 0 (fully hidden)
+                const circumference = 339.292;
+                circle.style.strokeDasharray = `${circumference} ${circumference}`;
+                circle.style.strokeDashoffset = circumference;
+
+                // Show 0% immediately
+                percent.textContent = "0";
+
+                // Jump to 5% quickly to show life
+                setTimeout(() => {
+                    const offset = circumference - (5 / 100) * circumference;
+                    circle.style.strokeDashoffset = offset;
+                    percent.textContent = "5";
+                }, 50);
+            }
+        })();
+    </script>
     <nav class="navbar">
         <div class="logo"><span class="highlight">G</span>-SHOCK</div>
         <div class="nav-links">

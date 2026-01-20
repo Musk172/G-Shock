@@ -14,14 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (loadingScreen && circle && percentDisplay) {
         const circumference = 339.292; // 2 * PI * 54
-        let progress = 0;
 
-        // Initialize with 0
-        circle.style.strokeDasharray = `${circumference} ${circumference}`;
-        circle.style.strokeDashoffset = circumference;
+        // Don't reset to 0 here to avoid flash, pick up where inline left off
+        // circle.style.strokeDashoffset = circumference; 
 
-        let currentProgress = 0;
-        let targetProgress = 0;
+        let currentProgress = 5; // Start at 5%
+        let targetProgress = 5;  // Sync target
         let animationFrameId;
         let isPageLoaded = false;
 
