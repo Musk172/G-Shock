@@ -3813,3 +3813,198 @@ canvas#scroll-sequence-canvas.loaded {
         align-self: inherit;
     }
 }
+
+/* -------------------------------------------------------------------------- */
+/*                               LOADING SCREEN                               */
+/* -------------------------------------------------------------------------- */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0c0c0c;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.watch-dial-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Outer static decoration */
+.dial-outer-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.dial-outer-ring::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    animation: rotateLeft 20s linear infinite;
+}
+
+/* Ticks - Conic Gradient */
+.dial-ticks {
+    position: absolute;
+    inset: 15px;
+    border-radius: 50%;
+    background:
+        repeating-conic-gradient(rgba(255, 255, 255, 0.05) 0deg 0.5deg,
+            transparent 0.5deg 5deg);
+    mask: radial-gradient(transparent 70%, black 70%);
+    -webkit-mask: radial-gradient(transparent 70%, black 70%);
+    z-index: 1;
+}
+
+/* SVG Progress Ring */
+.progress-ring-svg {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    transform: rotate(-90deg);
+    /* Start from top */
+    z-index: 2;
+    filter: drop-shadow(0 0 6px rgba(255, 77, 0, 0.5));
+}
+
+.bg-ring {
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 2;
+    fill: transparent;
+}
+
+.progress-ring-circle {
+    stroke: var(--color-accent);
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: transparent;
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    /* No CSS transition for smoother JS control */
+}
+
+/* Inner Deco */
+.dial-inner-deco {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    z-index: 3;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.crosshair {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.crosshair.top,
+.crosshair.bottom {
+    width: 1px;
+    height: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.crosshair.top {
+    top: 0;
+}
+
+.crosshair.bottom {
+    bottom: 0;
+}
+
+.crosshair.left,
+.crosshair.right {
+    width: 14px;
+    height: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.crosshair.left {
+    left: 0;
+}
+
+.crosshair.right {
+    right: 0;
+}
+
+/* Text */
+.dial-center-text {
+    position: relative;
+    z-index: 10;
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    text-shadow: 0 0 10px rgba(255, 77, 0, 0.3);
+}
+
+#loader-percent {
+    font-size: 3.5rem;
+    letter-spacing: -2px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.sym {
+    font-size: 1.2rem;
+    color: var(--color-accent);
+    margin-left: 4px;
+    transform: translateY(-12px);
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.loader-status-text {
+    font-family: 'Orbitron', sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    margin-top: -15px;
+}
+
+/* Animation for the outer ring */
+@keyframes rotateLeft {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}

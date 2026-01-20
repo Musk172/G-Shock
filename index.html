@@ -16,6 +16,43 @@
 </head>
 
 <body>
+    <!-- PRELOADER -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader-content">
+            <div class="watch-dial-wrapper">
+                <!-- Outer Static Ring (Decor) -->
+                <div class="dial-outer-ring"></div>
+
+                <!-- Ticks Ring -->
+                <div class="dial-ticks">
+                    <!-- Ticks will be decorative via CSS gradient -->
+                </div>
+
+                <!-- Rotating Progress Ring (The 'Move Full Rotation') -->
+                <svg class="progress-ring-svg" viewBox="0 0 120 120">
+                    <circle class="bg-ring" cx="60" cy="60" r="54" />
+                    <circle class="progress-ring-circle" cx="60" cy="60" r="54" />
+                </svg>
+
+                <!-- Inner Decorative Hud -->
+                <div class="dial-inner-deco">
+                    <div class="crosshair top"></div>
+                    <div class="crosshair bottom"></div>
+                    <div class="crosshair left"></div>
+                    <div class="crosshair right"></div>
+                </div>
+
+                <!-- Center Text -->
+                <div class="dial-center-text">
+                    <span id="loader-percent">0</span><span class="sym">%</span>
+                </div>
+            </div>
+            <div class="loader-status-text">
+                <span class="status-label">SYSTEM_CHECK</span>
+                <span class="status-dots">...</span>
+            </div>
+        </div>
+    </div>
     <nav class="navbar">
         <div class="logo"><span class="highlight">G</span>-SHOCK</div>
         <div class="nav-links">

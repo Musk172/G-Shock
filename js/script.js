@@ -1,6 +1,89 @@
+import { inject } from '@vercel/analytics';
 import ScrollSequence from './ScrollSequence.js';
 
+inject();
+
 document.addEventListener('DOMContentLoaded', async () => {
+    // --- Loading Screen Logic ---
+    const loadingScreen = document.getElementById('loading-screen');
+    const percentDisplay = document.getElementById('loader-percent');
+    const circle = document.querySelector('.progress-ring-circle');
+
+    // Prevent scrolling during load
+    document.body.style.overflow = 'hidden';
+
+    if (loadingScreen && circle && percentDisplay) {
+        const circumference = 339.292; // 2 * PI * 54
+        let progress = 0;
+
+        // Initialize with 0
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        let currentProgress = 0;
+        let targetProgress = 0;
+        let animationFrameId;
+
+        // 1. Simulator: Adds chunks to target at random intervals
+        const simulateLoading = () => {
+            if (targetProgress >= 100) return;
+
+            // Random jump size
+            let jump = Math.random() * 15 + 5;
+
+            // Slow down heavily near 90%
+            if (targetProgress > 80) jump = Math.random() * 5 + 1;
+
+            targetProgress += jump;
+            if (targetProgress > 100) targetProgress = 100;
+
+            // Random delay for next chunk
+            const delay = Math.random() * 200 + 100;
+            setTimeout(simulateLoading, delay);
+        };
+
+        // 2. Animator: Smoothly interpolates current -> target
+        const updateVisuals = () => {
+            // Lerp factor (higher = faster catchup, lower = smoother/slower)
+            const ease = 0.05;
+
+            // Standard Lerp
+            currentProgress += (targetProgress - currentProgress) * ease;
+
+            // Snap if very close
+            if (Math.abs(targetProgress - currentProgress) < 0.1) {
+                currentProgress = targetProgress;
+            }
+
+            // Update DOM
+            percentDisplay.textContent = Math.floor(currentProgress);
+            const offset = circumference - (currentProgress / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            if (currentProgress < 99.9) {
+                animationFrameId = requestAnimationFrame(updateVisuals);
+            } else {
+                // Done
+                percentDisplay.textContent = "100";
+                circle.style.strokeDashoffset = 0;
+
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }, 500);
+            }
+        };
+
+        // Start
+        setTimeout(() => {
+            simulateLoading();
+            requestAnimationFrame(updateVisuals);
+        }, 300);
+
+
+    }
+
+
     // 0. Fetch Frame List (Static Public Assets)
     let frames = [];
     try {
