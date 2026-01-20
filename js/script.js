@@ -23,23 +23,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         let currentProgress = 0;
         let targetProgress = 0;
         let animationFrameId;
+        let isPageLoaded = false;
+
+        // Listen for actual window load
+        if (document.readyState === 'complete') {
+            isPageLoaded = true;
+        } else {
+            window.addEventListener('load', () => {
+                isPageLoaded = true;
+            });
+        }
 
         // 1. Simulator: Adds chunks to target at random intervals
         const simulateLoading = () => {
-            if (targetProgress >= 100) return;
+            if (isPageLoaded) {
+                targetProgress = 100;
+                // No need to recurse if we are done, visuals will catch up
+                return;
+            }
 
-            // Random jump size
-            let jump = Math.random() * 15 + 5;
+            // Not loaded yet, simulate network activity but CAP it
+            if (targetProgress < 85) {
+                let jump = Math.random() * 10 + 2;
+                if (targetProgress > 70) jump = Math.random() * 3 + 1;
 
-            // Slow down heavily near 90%
-            if (targetProgress > 80) jump = Math.random() * 5 + 1;
+                targetProgress += jump;
+                if (targetProgress > 85) targetProgress = 85;
+            }
 
-            targetProgress += jump;
-            if (targetProgress > 100) targetProgress = 100;
-
-            // Random delay for next chunk
-            const delay = Math.random() * 200 + 100;
-            setTimeout(simulateLoading, delay);
+            // Keep loop alive to check isPageLoaded
+            setTimeout(simulateLoading, Math.random() * 200 + 100);
         };
 
         // 2. Animator: Smoothly interpolates current -> target
